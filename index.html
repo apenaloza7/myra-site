@@ -118,7 +118,7 @@
     <!-- Hero Section -->
     <section id="hero" class="min-h-screen flex items-center justify-center relative">
       <div class="container mx-auto px-4 sm:px-6 py-12">
-        <div class="hero-card max-w-xl mx-auto reveal-element">
+        <div class="hero-card max-w-xl lg:max-w-4xl mx-auto reveal-element">
 
           <!-- Texture Overlay -->
           <div class="hero-texture"></div>
@@ -157,6 +157,13 @@
 
         </div>
       </div>
+
+      <!-- Scroll Indicator -->
+      <a href="#portfolio" class="scroll-indicator" aria-label="Scroll to portfolio">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M7 10l5 5 5-5"/>
+        </svg>
+      </a>
     </section>
 
     <!-- Portfolio Section -->
@@ -258,6 +265,43 @@
           </div>
         </article>
       </div>
+    </div>
+  </div>
+
+  <!-- Lightbox Modal -->
+  <div id="lightbox" class="fixed inset-0 z-[60] hidden" aria-hidden="true" role="dialog" aria-label="Image lightbox">
+    <!-- Backdrop -->
+    <div class="lightbox-backdrop absolute inset-0 bg-charcoal/95 backdrop-blur-sm" onclick="closeLightbox()"></div>
+
+    <!-- Close Button -->
+    <button onclick="closeLightbox()" class="lightbox-close absolute top-4 right-4 sm:top-6 sm:right-6 w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-cream/10 hover:bg-cream/20 flex items-center justify-center transition-colors z-10" aria-label="Close lightbox">
+      <svg class="w-5 h-5 sm:w-6 sm:h-6 text-cream" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+      </svg>
+    </button>
+
+    <!-- Navigation - Previous -->
+    <button onclick="navigateLightbox(-1)" class="lightbox-nav lightbox-prev absolute left-2 sm:left-6 top-1/2 -translate-y-1/2 w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-cream/10 hover:bg-cream/20 flex items-center justify-center transition-colors z-10" aria-label="Previous image">
+      <svg class="w-5 h-5 sm:w-6 sm:h-6 text-cream" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+      </svg>
+    </button>
+
+    <!-- Navigation - Next -->
+    <button onclick="navigateLightbox(1)" class="lightbox-nav lightbox-next absolute right-2 sm:right-6 top-1/2 -translate-y-1/2 w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-cream/10 hover:bg-cream/20 flex items-center justify-center transition-colors z-10" aria-label="Next image">
+      <svg class="w-5 h-5 sm:w-6 sm:h-6 text-cream" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+      </svg>
+    </button>
+
+    <!-- Image Container -->
+    <div class="absolute inset-0 flex items-center justify-center p-12 sm:p-16 pointer-events-none">
+      <img id="lightbox-image" src="" alt="" class="lightbox-image max-w-full max-h-full object-contain pointer-events-auto">
+    </div>
+
+    <!-- Counter -->
+    <div id="lightbox-counter" class="lightbox-counter absolute bottom-4 sm:bottom-6 left-1/2 -translate-x-1/2 text-cream/70 text-sm font-medium tracking-wider">
+      <!-- e.g., "3 / 12" -->
     </div>
   </div>
 

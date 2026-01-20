@@ -426,6 +426,12 @@ body {
   }
 }
 
+@media (min-width: 1024px) {
+  .hero-card {
+    padding: 6rem 5rem;
+  }
+}
+
 /* Corner accents */
 .hero-card::before,
 .hero-card::after {
@@ -452,6 +458,58 @@ body {
   border-top: none;
 }
 
+/* ==========================================================================
+   Scroll Indicator
+   ========================================================================== */
+
+.scroll-indicator {
+  position: absolute;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  color: var(--color-coral);
+  opacity: 0.7;
+  animation: bounce 2s ease-in-out infinite;
+  transition: opacity var(--transition-base);
+  cursor: pointer;
+}
+
+.scroll-indicator:hover {
+  opacity: 1;
+}
+
+.scroll-indicator svg {
+  width: 28px;
+  height: 28px;
+}
+
+@keyframes bounce {
+  0%, 100% {
+    transform: translateX(-50%) translateY(0);
+  }
+  50% {
+    transform: translateX(-50%) translateY(10px);
+  }
+}
+
+/* Mobile adjustments */
+@media (max-width: 640px) {
+  .scroll-indicator {
+    bottom: 1.5rem;
+    width: 40px;
+    height: 40px;
+  }
+
+  .scroll-indicator svg {
+    width: 24px;
+    height: 24px;
+  }
+}
 
 /* ==========================================================================
    Organic Blob Shapes
@@ -671,7 +729,7 @@ body {
 }
 
 .portfolio-item.expanded .portfolio-item-details {
-  max-height: 300px;
+  max-height: 600px;
   padding-top: 1rem;
 }
 
@@ -751,7 +809,7 @@ body {
   .portfolio-item.expanded .portfolio-item-details {
     padding-left: 0;
     padding-top: 0.75rem;
-    max-height: 400px;
+    max-height: 700px;
   }
 
   .portfolio-item-description {
@@ -1179,6 +1237,203 @@ footer .social-link:hover {
 .social-link {
   -webkit-user-select: none;
   user-select: none;
+}
+
+/* ==========================================================================
+   Portfolio Gallery Thumbnails
+   ========================================================================== */
+
+.portfolio-gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.portfolio-gallery-thumb {
+  aspect-ratio: 1;
+  border-radius: 0.375rem;
+  overflow: hidden;
+  cursor: pointer;
+  position: relative;
+  background: var(--color-warmgray);
+}
+
+.portfolio-gallery-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform var(--transition-base), opacity var(--transition-base);
+}
+
+.portfolio-gallery-thumb:hover img {
+  transform: scale(1.1);
+  opacity: 0.9;
+}
+
+.portfolio-gallery-thumb::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border: 2px solid transparent;
+  border-radius: 0.375rem;
+  transition: border-color var(--transition-base);
+  pointer-events: none;
+}
+
+.portfolio-gallery-thumb:hover::after {
+  border-color: var(--color-coral);
+}
+
+/* Gallery label */
+.portfolio-gallery-label {
+  font-size: 0.6875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--color-warmgray);
+  margin-bottom: 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.portfolio-gallery-label::before {
+  content: '';
+  width: 12px;
+  height: 1px;
+  background: var(--color-warmgray);
+  opacity: 0.5;
+}
+
+@media (max-width: 640px) {
+  .portfolio-gallery {
+    grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
+    gap: 0.375rem;
+  }
+
+  .portfolio-gallery-thumb {
+    border-radius: 0.25rem;
+  }
+
+  .portfolio-gallery-label {
+    font-size: 0.625rem;
+  }
+}
+
+/* ==========================================================================
+   Lightbox Modal
+   ========================================================================== */
+
+#lightbox {
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity var(--transition-base), visibility var(--transition-base);
+}
+
+#lightbox.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+#lightbox.active .lightbox-backdrop {
+  opacity: 1;
+}
+
+#lightbox.active .lightbox-image {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.lightbox-backdrop {
+  opacity: 0;
+  transition: opacity var(--transition-base);
+}
+
+.lightbox-image {
+  opacity: 0;
+  transform: scale(0.95);
+  transition: opacity 0.15s ease, transform var(--transition-base);
+  border-radius: 0.5rem;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+}
+
+.lightbox-close,
+.lightbox-nav {
+  opacity: 0.7;
+  transition: opacity var(--transition-base), background var(--transition-base), transform var(--transition-base);
+}
+
+.lightbox-close:hover,
+.lightbox-nav:hover {
+  opacity: 1;
+}
+
+.lightbox-nav:active {
+  transform: translateY(-50%) scale(0.95);
+}
+
+.lightbox-close:active {
+  transform: scale(0.95);
+}
+
+.lightbox-counter {
+  background: rgba(45, 41, 38, 0.6);
+  padding: 0.5rem 1rem;
+  border-radius: 9999px;
+  backdrop-filter: blur(4px);
+}
+
+/* Hide nav buttons when only one image */
+#lightbox[data-single="true"] .lightbox-nav {
+  display: none;
+}
+
+/* Mobile lightbox adjustments */
+@media (max-width: 640px) {
+  #lightbox .lightbox-image {
+    border-radius: 0;
+  }
+
+  .lightbox-close {
+    top: 1rem !important;
+    right: 1rem !important;
+  }
+
+  .lightbox-nav {
+    width: 40px !important;
+    height: 40px !important;
+  }
+
+  .lightbox-prev {
+    left: 0.5rem !important;
+  }
+
+  .lightbox-next {
+    right: 0.5rem !important;
+  }
+
+  .lightbox-counter {
+    font-size: 0.75rem;
+    padding: 0.375rem 0.75rem;
+  }
+}
+
+/* Touch device adjustments */
+@media (hover: none) and (pointer: coarse) {
+  .portfolio-gallery-thumb:hover img {
+    transform: none;
+    opacity: 1;
+  }
+
+  .portfolio-gallery-thumb:active img {
+    transform: scale(1.05);
+    opacity: 0.9;
+  }
+
+  .lightbox-close,
+  .lightbox-nav {
+    opacity: 1;
+  }
 }
 
 /* ==========================================================================

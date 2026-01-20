@@ -165,6 +165,9 @@ function renderPortfolio(items) {
     return;
   }
 
+  // Store items globally for lightbox access
+  window.portfolioItems = items;
+
   list.innerHTML = items.map((item, index) => {
     // Handle both Contentful format and demo format (simple URL string)
     const imageUrl = typeof item.coverImage === 'string'
@@ -194,6 +197,9 @@ function renderPortfolio(items) {
         </div>`
       : '';
 
+    // Gallery images for expanded view
+    const galleryHtml = renderPortfolioGallery(item.galleryImages, index);
+
     return `
       <article class="portfolio-item reveal-element" onclick="togglePortfolioItem(${index})" data-index="${index}">
         <div class="portfolio-item-thumbnail">
@@ -212,6 +218,7 @@ function renderPortfolio(items) {
           <div class="portfolio-item-details">
             ${item.description ? `<p class="portfolio-item-description">${item.description}</p>` : ''}
             ${fullMetricsHtml}
+            ${galleryHtml}
           </div>
         </div>
         <div class="portfolio-item-expand-icon">
@@ -222,6 +229,41 @@ function renderPortfolio(items) {
       </article>
     `;
   }).join('');
+}
+
+function renderPortfolioGallery(galleryImages, portfolioIndex) {
+  if (!galleryImages || !Array.isArray(galleryImages) || galleryImages.length === 0) {
+    return '';
+  }
+
+  // Extract image URLs from Contentful format
+  const images = galleryImages
+    .map(img => {
+      const url = typeof img === 'string' ? img : img?.fields?.file?.url;
+      return url ? (url.startsWith('//') ? `https:${url}` : url) : null;
+    })
+    .filter(Boolean);
+
+  if (images.length === 0) return '';
+
+  const thumbnails = images.map((url, imgIndex) => `
+    <button 
+      class="portfolio-gallery-thumb" 
+      onclick="event.stopPropagation(); openLightbox(${portfolioIndex}, ${imgIndex})"
+      aria-label="View image ${imgIndex + 1} of ${images.length}"
+    >
+      <img src="${url}" alt="Gallery image ${imgIndex + 1}" loading="lazy">
+    </button>
+  `).join('');
+
+  return `
+    <div class="portfolio-gallery-section" style="margin-top: 1rem;">
+      <p class="portfolio-gallery-label">Gallery (${images.length})</p>
+      <div class="portfolio-gallery">
+        ${thumbnails}
+      </div>
+    </div>
+  `;
 }
 
 function togglePortfolioItem(index) {
@@ -466,8 +508,124 @@ function closeBlogModal() {
 document.addEventListener('keydown', (e) => {
   if (e.key === 'Escape') {
     closeBlogModal();
+    closeLightbox();
   }
 });
+
+// ==========================================================================
+// Lightbox Functions
+// ==========================================================================
+
+let currentLightboxImages = [];
+let currentLightboxIndex = 0;
+
+function openLightbox(portfolioIndex, imageIndex) {
+  const item = window.portfolioItems?.[portfolioIndex];
+  if (!item || !item.galleryImages) return;
+
+  // Extract image URLs
+  currentLightboxImages = item.galleryImages
+    .map(img => {
+      const url = typeof img === 'string' ? img : img?.fields?.file?.url;
+      return url ? (url.startsWith('//') ? `https:${url}` : url) : null;
+    })
+    .filter(Boolean);
+
+  if (currentLightboxImages.length === 0) return;
+
+  currentLightboxIndex = imageIndex;
+
+  const lightbox = document.getElementById('lightbox');
+  const lightboxImage = document.getElementById('lightbox-image');
+  const lightboxCounter = document.getElementById('lightbox-counter');
+
+  // Set single image mode (hides nav buttons)
+  lightbox.setAttribute('data-single', currentLightboxImages.length === 1 ? 'true' : 'false');
+
+  // Set initial image
+  lightboxImage.src = currentLightboxImages[currentLightboxIndex];
+  lightboxImage.alt = `${item.title} - Image ${currentLightboxIndex + 1}`;
+
+  // Update counter
+  lightboxCounter.textContent = `${currentLightboxIndex + 1} / ${currentLightboxImages.length}`;
+
+  // Show lightbox
+  lightbox.classList.remove('hidden');
+  lightbox.setAttribute('aria-hidden', 'false');
+
+  // Trigger animation
+  requestAnimationFrame(() => {
+    lightbox.classList.add('active');
+  });
+
+  // Prevent body scroll
+  document.body.style.overflow = 'hidden';
+
+  // Add keyboard navigation
+  document.addEventListener('keydown', handleLightboxKeydown);
+}
+
+function closeLightbox() {
+  const lightbox = document.getElementById('lightbox');
+
+  if (lightbox.classList.contains('hidden')) return;
+
+  lightbox.classList.remove('active');
+
+  setTimeout(() => {
+    lightbox.classList.add('hidden');
+    lightbox.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+  }, 300);
+
+  // Remove keyboard navigation
+  document.removeEventListener('keydown', handleLightboxKeydown);
+
+  // Reset state
+  currentLightboxImages = [];
+  currentLightboxIndex = 0;
+}
+
+function navigateLightbox(direction) {
+  if (currentLightboxImages.length <= 1) return;
+
+  currentLightboxIndex += direction;
+
+  // Wrap around
+  if (currentLightboxIndex < 0) {
+    currentLightboxIndex = currentLightboxImages.length - 1;
+  } else if (currentLightboxIndex >= currentLightboxImages.length) {
+    currentLightboxIndex = 0;
+  }
+
+  const lightboxImage = document.getElementById('lightbox-image');
+  const lightboxCounter = document.getElementById('lightbox-counter');
+
+  // Fade out, change image, fade in
+  lightboxImage.style.opacity = '0';
+
+  setTimeout(() => {
+    lightboxImage.src = currentLightboxImages[currentLightboxIndex];
+    lightboxCounter.textContent = `${currentLightboxIndex + 1} / ${currentLightboxImages.length}`;
+    lightboxImage.style.opacity = '1';
+  }, 150);
+}
+
+function handleLightboxKeydown(e) {
+  switch (e.key) {
+    case 'ArrowLeft':
+      e.preventDefault();
+      navigateLightbox(-1);
+      break;
+    case 'ArrowRight':
+      e.preventDefault();
+      navigateLightbox(1);
+      break;
+    case 'Escape':
+      closeLightbox();
+      break;
+  }
+}
 
 // ==========================================================================
 // Scroll Animations

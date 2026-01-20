@@ -51,15 +51,16 @@ You need to create **3 content models** in Contentful:
 
 **Content Type ID:** `portfolioItem`
 
-| Field Name   | Field ID      | Type        | Required | Notes                                    |
-|--------------|---------------|-------------|----------|------------------------------------------|
-| Title        | `title`       | Short text  | ✅ Yes   | Project/campaign title                   |
-| Client       | `client`      | Short text  | No       | Client or brand name                     |
-| Description  | `description` | Long text   | No       | Detailed project description             |
-| Cover Image  | `coverImage`  | Media       | No       | Project thumbnail/cover image            |
-| Category     | `category`    | Short text  | No       | Category tag (e.g., "Social Campaign")   |
-| Metrics      | `metrics`     | JSON object | No       | Array of performance metrics             |
-| Order        | `order`       | Number      | No       | Sort order (lower numbers appear first)  |
+| Field Name     | Field ID        | Type              | Required | Notes                                    |
+|----------------|-----------------|-------------------|----------|------------------------------------------|
+| Title          | `title`         | Short text        | ✅ Yes   | Project/campaign title                   |
+| Client         | `client`        | Short text        | No       | Client or brand name                     |
+| Description    | `description`   | Long text         | No       | Detailed project description             |
+| Cover Image    | `coverImage`    | Media             | No       | Project thumbnail/cover image            |
+| Gallery Images | `galleryImages` | Media (Many files)| No       | Photo album for the project              |
+| Category       | `category`      | Short text        | No       | Category tag (e.g., "Social Campaign")   |
+| Metrics        | `metrics`       | JSON object       | No       | Array of performance metrics             |
+| Order          | `order`         | Number            | No       | Sort order (lower numbers appear first)  |
 
 **Metrics JSON Structure:**
 ```json
@@ -70,6 +71,12 @@ You need to create **3 content models** in Contentful:
   { "value": "89%", "label": "Click-through Rate" }
 ]
 ```
+
+**Gallery Images Field Setup:**
+- In Contentful, create a Media field with "Many files" enabled
+- Set validation to accept only image file types (jpg, png, gif, webp)
+- Images will display as a thumbnail grid when the portfolio item is expanded
+- Clicking a thumbnail opens a full-screen lightbox viewer
 
 ---
 
