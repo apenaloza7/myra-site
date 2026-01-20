@@ -883,6 +883,64 @@ body {
   }
 }
 
+/* Portfolio Managed Accounts */
+.portfolio-managed-accounts {
+  margin-top: 1.25rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(139, 129, 120, 0.15);
+}
+
+.portfolio-managed-label {
+  font-size: 0.6875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--color-warmgray);
+  margin-bottom: 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.portfolio-managed-label::before {
+  content: '';
+  width: 12px;
+  height: 1px;
+  background: var(--color-warmgray);
+  opacity: 0.5;
+}
+
+.portfolio-managed-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.portfolio-managed-links .portfolio-social-link {
+  margin-top: 0;
+}
+
+.portfolio-managed-period {
+  font-size: 0.6875rem;
+  color: var(--color-warmgray);
+  margin-top: 0.75rem;
+  font-style: italic;
+}
+
+@media (max-width: 640px) {
+  .portfolio-managed-accounts {
+    margin-top: 1rem;
+    padding-top: 0.75rem;
+  }
+
+  .portfolio-managed-label {
+    font-size: 0.625rem;
+  }
+
+  .portfolio-managed-period {
+    font-size: 0.625rem;
+  }
+}
+
 /* ==========================================================================
    Blog Carousel
    ========================================================================== */

@@ -51,18 +51,20 @@ You need to create **3 content models** in Contentful:
 
 **Content Type ID:** `portfolioItem`
 
-| Field Name       | Field ID          | Type              | Required | Notes                                    |
-|------------------|-------------------|-------------------|----------|------------------------------------------|
-| Title            | `title`           | Short text        | ✅ Yes   | Project/campaign title                   |
-| Client           | `client`          | Short text        | No       | Client or brand name                     |
-| Description      | `description`     | Long text         | No       | Detailed project description             |
-| Cover Image      | `coverImage`      | Media             | No       | Project thumbnail/cover image            |
-| Gallery Images   | `galleryImages`   | Media (Many files)| No       | Photo album for the project              |
-| Category         | `category`        | Short text        | No       | Category tag (e.g., "Social Campaign")   |
-| Metrics          | `metrics`         | JSON object       | No       | Array of performance metrics             |
-| Social Post URL  | `socialPostUrl`   | Short text        | No       | Link to original Instagram/TikTok/etc post |
-| Metrics Updated  | `metricsUpdated`  | Date & time       | No       | When metrics were last updated           |
-| Order            | `order`           | Number            | No       | Sort order (lower numbers appear first)  |
+| Field Name        | Field ID           | Type              | Required | Notes                                    |
+|-------------------|-------------------|-------------------|----------|------------------------------------------|
+| Title             | `title`           | Short text        | ✅ Yes   | Project/campaign title                   |
+| Client            | `client`          | Short text        | No       | Client or brand name                     |
+| Description       | `description`     | Long text         | No       | Detailed project description             |
+| Cover Image       | `coverImage`      | Media             | No       | Project thumbnail/cover image            |
+| Gallery Images    | `galleryImages`   | Media (Many files)| No       | Photo album for the project              |
+| Category          | `category`        | Short text        | No       | Category tag (e.g., "Social Campaign")   |
+| Metrics           | `metrics`         | JSON object       | No       | Array of performance metrics             |
+| Social Post URL   | `socialPostUrl`   | Short text        | No       | Link to original Instagram/TikTok/etc post |
+| Managed Accounts  | `managedAccounts` | JSON object       | No       | Array of social accounts managed for client |
+| Management Period | `managementPeriod`| Short text        | No       | Date range (e.g., "2021-2023")           |
+| Metrics Updated   | `metricsUpdated`  | Date & time       | No       | When metrics were last updated           |
+| Order             | `order`           | Number            | No       | Sort order (lower numbers appear first)  |
 
 **Metrics JSON Structure:**
 ```json
@@ -90,6 +92,27 @@ You need to create **3 content models** in Contentful:
 - Optional date field to show when the metrics were last updated
 - Displays "Metrics as of [date]" below the metrics in the expanded view
 - Useful for showing how fresh the performance data is
+
+**Managed Accounts JSON Structure:**
+```json
+[
+  { "platform": "instagram", "url": "https://instagram.com/clienthandle" },
+  { "platform": "tiktok", "url": "https://tiktok.com/@clienthandle" },
+  { "platform": "youtube", "url": "https://youtube.com/@clientchannel" }
+]
+```
+
+**Managed Accounts Field:**
+- Array of social media accounts you managed for this client/project
+- Each entry contains the platform name and URL to the account
+- Platform is auto-detected from URL, or can be specified explicitly
+- Displays with appropriate platform icons in the portfolio item
+- Supports: Instagram, TikTok, YouTube, Twitter/X, Facebook, LinkedIn, Pinterest
+
+**Management Period Field:**
+- Optional text field showing when you managed the account(s)
+- Examples: "2021-2023", "Jan 2021 - Present", "Q1 2024"
+- Displays below the managed accounts links
 
 ---
 
@@ -154,6 +177,12 @@ Metrics:
   { "value": "18K", "label": "New Followers" }
 ]
 Social Post URL: https://www.instagram.com/p/example123/
+Managed Accounts:
+[
+  { "platform": "instagram", "url": "https://instagram.com/coastalboutique" },
+  { "platform": "tiktok", "url": "https://tiktok.com/@coastalboutique" }
+]
+Management Period: 2024-2025
 Metrics Updated: 2026-01-15
 Order: 1
 ```

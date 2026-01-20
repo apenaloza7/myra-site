@@ -245,6 +245,28 @@ function renderPortfolio(items) {
         </a>`
       : '';
 
+    // Managed accounts section
+    const managedAccountsHtml = item.managedAccounts && Array.isArray(item.managedAccounts) && item.managedAccounts.length > 0
+      ? `<div class="portfolio-managed-accounts">
+          <p class="portfolio-managed-label">Managed Accounts</p>
+          <div class="portfolio-managed-links">
+            ${item.managedAccounts.map(account => {
+              const platform = account.platform || detectPlatform(account.url);
+              const handle = account.url ? account.url.split('/').filter(Boolean).pop() : platform;
+              return `<a href="${account.url}" 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  class="portfolio-social-link"
+                  onclick="event.stopPropagation()">
+                ${getSocialIcon(platform)}
+                <span>@${handle.replace('@', '')}</span>
+              </a>`;
+            }).join('')}
+          </div>
+          ${item.managementPeriod ? `<p class="portfolio-managed-period">Managed ${item.managementPeriod}</p>` : ''}
+        </div>`
+      : '';
+
     // Metrics updated date
     const metricsDateHtml = item.metricsUpdated
       ? `<p class="portfolio-metrics-date">Metrics as of ${new Date(item.metricsUpdated).toLocaleDateString('en-US', {
@@ -277,6 +299,7 @@ function renderPortfolio(items) {
             ${fullMetricsHtml}
             ${metricsDateHtml}
             ${socialLinkHtml}
+            ${managedAccountsHtml}
             ${galleryHtml}
           </div>
         </div>
