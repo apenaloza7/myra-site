@@ -115,36 +115,44 @@
   <!-- Main Content -->
   <main id="main-content" class="opacity-0 transition-opacity duration-500">
 
-    <!-- Hero Section - Magazine Masthead -->
+    <!-- Hero Section - Floating Card -->
     <section id="hero" class="py-12 sm:py-16 lg:py-24 relative">
       <div class="container mx-auto px-4 sm:px-6">
-        <div class="flex flex-col sm:flex-row items-center gap-6 sm:gap-8 md:gap-12 reveal-element">
+        <div class="hero-card max-w-xl mx-auto reveal-element">
 
-          <!-- Profile Image (small circle) -->
-          <div class="flex-shrink-0">
-            <div class="w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 rounded-full overflow-hidden border-2 border-coral bg-warmgray/10">
+          <!-- Texture Overlay -->
+          <div class="hero-texture"></div>
+
+          <!-- Title Kicker -->
+          <p class="text-coral uppercase tracking-[0.3em] text-xs text-center mb-6" id="hero-title">
+            Social Media Strategist
+          </p>
+
+          <!-- Name + Profile Row -->
+          <div class="flex items-center justify-center gap-4 mb-6">
+            <div class="w-14 h-14 sm:w-16 sm:h-16 rounded-full overflow-hidden border-2 border-coral flex-shrink-0 bg-warmgray/10">
               <img id="hero-image" src="" alt="Profile" class="w-full h-full object-cover opacity-0 transition-opacity duration-500" onload="this.style.opacity='1'">
             </div>
-          </div>
-
-          <!-- Text Content -->
-          <div class="flex-1 text-center sm:text-left">
-            <h1 class="font-display text-3xl sm:text-4xl md:text-5xl leading-[1.1] mb-1" id="hero-name">
+            <h1 class="font-display text-3xl sm:text-4xl md:text-5xl leading-tight" id="hero-name">
               Your Name Here
             </h1>
-            <p class="text-coral uppercase tracking-[0.2em] sm:tracking-[0.3em] text-xs sm:text-sm mb-3 sm:mb-4" id="hero-title">Social Media Strategist</p>
+          </div>
 
-            <!-- Decorative horizontal rule -->
-            <div class="w-12 sm:w-16 h-px bg-warmgray/30 mx-auto sm:mx-0 mb-3 sm:mb-4"></div>
+          <!-- Decorative Divider -->
+          <div class="flex items-center justify-center gap-3 mb-6">
+            <span class="w-12 h-px bg-warmgray/30"></span>
+            <span class="w-1.5 h-1.5 bg-coral rotate-45"></span>
+            <span class="w-12 h-px bg-warmgray/30"></span>
+          </div>
 
-            <p class="text-warmgray text-base sm:text-lg leading-relaxed mb-5 sm:mb-6 max-w-xl italic" id="hero-tagline">
-              "Crafting digital narratives that resonate, engage, and convert."
-            </p>
+          <!-- Tagline -->
+          <p class="text-warmgray text-base sm:text-lg leading-relaxed text-center italic max-w-md mx-auto mb-8" id="hero-tagline">
+            "Crafting digital narratives that resonate, engage, and convert."
+          </p>
 
-            <!-- Social Links (inline) -->
-            <div class="flex items-center justify-center sm:justify-start gap-2 sm:gap-3" id="hero-social-links">
-              <!-- Social links will be populated by JS -->
-            </div>
+          <!-- Social Links -->
+          <div class="flex items-center justify-center gap-3" id="hero-social-links">
+            <!-- Social links will be populated by JS -->
           </div>
 
         </div>
