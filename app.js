@@ -474,23 +474,12 @@ document.addEventListener('keydown', (e) => {
 // ==========================================================================
 
 function initScrollAnimations() {
-  const heroContainer = document.getElementById('hero-scroll-container');
-
   const observer = new IntersectionObserver(
     (entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
-          // Check if hero animation is complete before revealing elements below it
-          const isHeroComplete = !heroContainer || heroContainer.classList.contains('scroll-complete');
-          const isBelowHero = entry.target.closest('#portfolio') ||
-                              entry.target.closest('#blog') ||
-                              entry.target.closest('footer');
-
-          // Reveal immediately if hero is complete, or if element is within hero
-          if (isHeroComplete || !isBelowHero) {
-            entry.target.classList.add('revealed');
-            observer.unobserve(entry.target);
-          }
+          entry.target.classList.add('revealed');
+          observer.unobserve(entry.target);
         }
       });
     },
@@ -503,100 +492,8 @@ function initScrollAnimations() {
   document.querySelectorAll('.reveal-element').forEach(el => {
     observer.observe(el);
   });
-
-  // Re-check elements when hero animation completes
-  if (heroContainer) {
-    const mutationObserver = new MutationObserver((mutations) => {
-      mutations.forEach((mutation) => {
-        if (mutation.attributeName === 'class' &&
-            heroContainer.classList.contains('scroll-complete')) {
-          // Trigger a re-evaluation of all observed elements
-          document.querySelectorAll('.reveal-element:not(.revealed)').forEach(el => {
-            observer.unobserve(el);
-            observer.observe(el);
-          });
-          mutationObserver.disconnect();
-        }
-      });
-    });
-    mutationObserver.observe(heroContainer, { attributes: true });
-  }
 }
 
-// ==========================================================================
-// Hero Scroll Animation
-// ==========================================================================
-
-function initHeroScrollAnimation() {
-  const container = document.getElementById('hero-scroll-container');
-  const spacer = document.getElementById('hero-scroll-spacer');
-
-  if (!container || !spacer) return;
-
-  // Check for reduced motion preference
-  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
-
-  if (prefersReducedMotion.matches) {
-    // Skip animation, show final state
-    container.classList.add('scroll-complete');
-    return;
-  }
-
-  let ticking = false;
-
-  function updateScrollProgress() {
-    const scrollY = window.scrollY;
-    const spacerHeight = spacer.offsetHeight;
-
-    // Calculate progress (0 to 1)
-    const progress = Math.min(Math.max(scrollY / spacerHeight, 0), 1);
-
-    // Update CSS custom property
-    document.documentElement.style.setProperty('--hero-scroll-progress', progress);
-
-    // Toggle completion class at 98% progress
-    if (progress >= 0.98) {
-      container.classList.add('scroll-complete');
-    } else {
-      container.classList.remove('scroll-complete');
-    }
-
-    ticking = false;
-  }
-
-  function onScroll() {
-    if (!ticking) {
-      requestAnimationFrame(updateScrollProgress);
-      ticking = true;
-    }
-  }
-
-  // Listen for scroll events
-  window.addEventListener('scroll', onScroll, { passive: true });
-
-  // Handle resize events
-  window.addEventListener('resize', () => {
-    if (!ticking) {
-      requestAnimationFrame(updateScrollProgress);
-      ticking = true;
-    }
-  }, { passive: true });
-
-  // Listen for reduced motion preference changes
-  prefersReducedMotion.addEventListener('change', (e) => {
-    if (e.matches) {
-      container.classList.add('scroll-complete');
-      window.removeEventListener('scroll', onScroll);
-    } else {
-      container.classList.remove('scroll-complete');
-      window.addEventListener('scroll', onScroll, { passive: true });
-      updateScrollProgress();
-    }
-  });
-
-  // Initial update
-  updateScrollProgress();
-}
 
 // ==========================================================================
 // Error Handling
@@ -660,7 +557,6 @@ async function init() {
     // Initialize scroll animations after content is rendered
     requestAnimationFrame(() => {
       initScrollAnimations();
-      initHeroScrollAnimation();
     });
 
   } catch (error) {
