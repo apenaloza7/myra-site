@@ -93,6 +93,41 @@ function getSocialIcon(platform) {
   return socialIcons[key] || socialIcons.website;
 }
 
+/**
+ * Detect social media platform from URL
+ * @param {string} url - The social media post URL
+ * @returns {string} - Platform name (instagram, tiktok, youtube, twitter, facebook, or website)
+ */
+function detectPlatform(url) {
+  if (!url) return 'website';
+  
+  const urlLower = url.toLowerCase();
+  
+  if (urlLower.includes('instagram.com') || urlLower.includes('instagr.am')) {
+    return 'instagram';
+  }
+  if (urlLower.includes('tiktok.com')) {
+    return 'tiktok';
+  }
+  if (urlLower.includes('youtube.com') || urlLower.includes('youtu.be')) {
+    return 'youtube';
+  }
+  if (urlLower.includes('twitter.com') || urlLower.includes('x.com')) {
+    return 'twitter';
+  }
+  if (urlLower.includes('facebook.com') || urlLower.includes('fb.com') || urlLower.includes('fb.watch')) {
+    return 'facebook';
+  }
+  if (urlLower.includes('linkedin.com')) {
+    return 'linkedin';
+  }
+  if (urlLower.includes('pinterest.com') || urlLower.includes('pin.it')) {
+    return 'pinterest';
+  }
+  
+  return 'website';
+}
+
 // ==========================================================================
 // Rendering Functions
 // ==========================================================================
@@ -197,6 +232,27 @@ function renderPortfolio(items) {
         </div>`
       : '';
 
+    // Social post link
+    const socialLinkHtml = item.socialPostUrl
+      ? `<a href="${item.socialPostUrl}" 
+            target="_blank" 
+            rel="noopener noreferrer" 
+            class="portfolio-social-link"
+            onclick="event.stopPropagation()">
+          ${getSocialIcon(detectPlatform(item.socialPostUrl))}
+          <span>View Original Post</span>
+        </a>`
+      : '';
+
+    // Metrics updated date
+    const metricsDateHtml = item.metricsUpdated
+      ? `<p class="portfolio-metrics-date">Metrics as of ${new Date(item.metricsUpdated).toLocaleDateString('en-US', {
+          year: 'numeric',
+          month: 'short',
+          day: 'numeric'
+        })}</p>`
+      : '';
+
     // Gallery images for expanded view
     const galleryHtml = renderPortfolioGallery(item.galleryImages, index);
 
@@ -218,6 +274,8 @@ function renderPortfolio(items) {
           <div class="portfolio-item-details">
             ${item.description ? `<p class="portfolio-item-description">${item.description}</p>` : ''}
             ${fullMetricsHtml}
+            ${metricsDateHtml}
+            ${socialLinkHtml}
             ${galleryHtml}
           </div>
         </div>

@@ -51,16 +51,18 @@ You need to create **3 content models** in Contentful:
 
 **Content Type ID:** `portfolioItem`
 
-| Field Name     | Field ID        | Type              | Required | Notes                                    |
-|----------------|-----------------|-------------------|----------|------------------------------------------|
-| Title          | `title`         | Short text        | ✅ Yes   | Project/campaign title                   |
-| Client         | `client`        | Short text        | No       | Client or brand name                     |
-| Description    | `description`   | Long text         | No       | Detailed project description             |
-| Cover Image    | `coverImage`    | Media             | No       | Project thumbnail/cover image            |
-| Gallery Images | `galleryImages` | Media (Many files)| No       | Photo album for the project              |
-| Category       | `category`      | Short text        | No       | Category tag (e.g., "Social Campaign")   |
-| Metrics        | `metrics`       | JSON object       | No       | Array of performance metrics             |
-| Order          | `order`         | Number            | No       | Sort order (lower numbers appear first)  |
+| Field Name       | Field ID          | Type              | Required | Notes                                    |
+|------------------|-------------------|-------------------|----------|------------------------------------------|
+| Title            | `title`           | Short text        | ✅ Yes   | Project/campaign title                   |
+| Client           | `client`          | Short text        | No       | Client or brand name                     |
+| Description      | `description`     | Long text         | No       | Detailed project description             |
+| Cover Image      | `coverImage`      | Media             | No       | Project thumbnail/cover image            |
+| Gallery Images   | `galleryImages`   | Media (Many files)| No       | Photo album for the project              |
+| Category         | `category`        | Short text        | No       | Category tag (e.g., "Social Campaign")   |
+| Metrics          | `metrics`         | JSON object       | No       | Array of performance metrics             |
+| Social Post URL  | `socialPostUrl`   | Short text        | No       | Link to original Instagram/TikTok/etc post |
+| Metrics Updated  | `metricsUpdated`  | Date & time       | No       | When metrics were last updated           |
+| Order            | `order`           | Number            | No       | Sort order (lower numbers appear first)  |
 
 **Metrics JSON Structure:**
 ```json
@@ -77,6 +79,17 @@ You need to create **3 content models** in Contentful:
 - Set validation to accept only image file types (jpg, png, gif, webp)
 - Images will display as a thumbnail grid when the portfolio item is expanded
 - Clicking a thumbnail opens a full-screen lightbox viewer
+
+**Social Post URL Field:**
+- Direct link to the original Instagram, TikTok, YouTube, or other social media post
+- The platform is automatically detected from the URL and displays the appropriate icon
+- Supports: Instagram, TikTok, YouTube, Twitter/X, Facebook, LinkedIn, Pinterest
+- Example: `https://www.instagram.com/p/ABC123xyz/`
+
+**Metrics Updated Field:**
+- Optional date field to show when the metrics were last updated
+- Displays "Metrics as of [date]" below the metrics in the expanded view
+- Useful for showing how fresh the performance data is
 
 ---
 
@@ -140,6 +153,8 @@ Metrics:
   { "value": "2.1M", "label": "Total Reach" },
   { "value": "18K", "label": "New Followers" }
 ]
+Social Post URL: https://www.instagram.com/p/example123/
+Metrics Updated: 2026-01-15
 Order: 1
 ```
 
@@ -296,3 +311,5 @@ After completing setup:
 | Images not showing | Ensure images are uploaded to the Media library and linked to entries |
 | Social links not working | Check JSON format is valid and URLs include `https://` |
 | Blog content not rendering | Ensure Content field uses Rich Text type, not Long text |
+| Social post link not showing | Ensure `socialPostUrl` field contains a valid URL with `https://` |
+| Wrong platform icon | Check the URL is correct - platform is auto-detected from domain |
