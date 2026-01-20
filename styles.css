@@ -453,6 +453,106 @@ body {
 }
 
 /* ==========================================================================
+   Hero Scroll Animation
+   ========================================================================== */
+
+:root {
+  --hero-scroll-progress: 0;
+}
+
+.hero-scroll-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 20;
+  pointer-events: none;
+  will-change: transform, opacity;
+  /* Solid background to prevent portfolio showing through */
+  background: var(--color-cream);
+  /* Animation based on scroll progress */
+  transform: translateY(calc(var(--hero-scroll-progress) * -60vh))
+             scale(calc(1.1 - var(--hero-scroll-progress) * 0.1));
+  opacity: calc(1 - var(--hero-scroll-progress) * 0.1);
+}
+
+/* Enable pointer events on interactive elements inside hero */
+.hero-scroll-container #hero {
+  pointer-events: auto;
+}
+
+/* Spacer creates the scrollable area */
+.hero-scroll-spacer {
+  height: 60vh;
+  pointer-events: none;
+  position: relative;
+  z-index: 1;
+}
+
+/* Portfolio section should stay behind hero during animation */
+#portfolio {
+  position: relative;
+  z-index: 5;
+}
+
+/* When scroll animation is complete, switch to normal flow */
+.hero-scroll-container.scroll-complete {
+  position: relative;
+  height: auto;
+  transform: none;
+  opacity: 1;
+  z-index: 1;
+  background: transparent;
+}
+
+.hero-scroll-container.scroll-complete + .hero-scroll-spacer {
+  display: none;
+}
+
+/* Tablet adjustments */
+@media (max-width: 1024px) {
+  .hero-scroll-container {
+    transform: translateY(calc(var(--hero-scroll-progress) * -50vh))
+               scale(calc(1.08 - var(--hero-scroll-progress) * 0.08));
+  }
+
+  .hero-scroll-spacer {
+    height: 50vh;
+  }
+}
+
+/* Mobile adjustments */
+@media (max-width: 640px) {
+  .hero-scroll-container {
+    transform: translateY(calc(var(--hero-scroll-progress) * -40vh))
+               scale(calc(1.05 - var(--hero-scroll-progress) * 0.05));
+  }
+
+  .hero-scroll-spacer {
+    height: 40vh;
+  }
+}
+
+/* Reduced motion - show final state immediately */
+@media (prefers-reduced-motion: reduce) {
+  .hero-scroll-container {
+    position: relative;
+    height: auto;
+    transform: none;
+    opacity: 1;
+    background: transparent;
+  }
+
+  .hero-scroll-spacer {
+    display: none;
+  }
+}
+
+/* ==========================================================================
    Organic Blob Shapes
    ========================================================================== */
 

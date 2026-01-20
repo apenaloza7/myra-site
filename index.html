@@ -115,49 +115,55 @@
   <!-- Main Content -->
   <main id="main-content" class="opacity-0 transition-opacity duration-500">
 
-    <!-- Hero Section - Floating Card -->
-    <section id="hero" class="py-12 sm:py-16 lg:py-24 relative">
-      <div class="container mx-auto px-4 sm:px-6">
-        <div class="hero-card max-w-xl mx-auto reveal-element">
+    <!-- Hero Scroll Container -->
+    <div id="hero-scroll-container" class="hero-scroll-container">
+      <!-- Hero Section - Floating Card -->
+      <section id="hero" class="py-12 sm:py-16 lg:py-24 relative">
+        <div class="container mx-auto px-4 sm:px-6">
+          <div class="hero-card max-w-xl mx-auto reveal-element">
 
-          <!-- Texture Overlay -->
-          <div class="hero-texture"></div>
+            <!-- Texture Overlay -->
+            <div class="hero-texture"></div>
 
-          <!-- Title Kicker -->
-          <p class="text-coral uppercase tracking-[0.3em] text-xs text-center mb-6" id="hero-title">
-            Social Media Strategist
-          </p>
+            <!-- Title Kicker -->
+            <p class="text-coral uppercase tracking-[0.3em] text-xs text-center mb-6" id="hero-title">
+              Social Media Strategist
+            </p>
 
-          <!-- Name + Profile Row -->
-          <div class="flex items-center justify-center gap-4 mb-6">
-            <div class="w-14 h-14 sm:w-16 sm:h-16 rounded-full overflow-hidden border-2 border-coral flex-shrink-0 bg-warmgray/10">
-              <img id="hero-image" src="" alt="Profile" class="w-full h-full object-cover opacity-0 transition-opacity duration-500" onload="this.style.opacity='1'">
+            <!-- Name + Profile Row -->
+            <div class="flex items-center justify-center gap-4 mb-6">
+              <div class="w-14 h-14 sm:w-16 sm:h-16 rounded-full overflow-hidden border-2 border-coral flex-shrink-0 bg-warmgray/10">
+                <img id="hero-image" src="" alt="Profile" class="w-full h-full object-cover opacity-0 transition-opacity duration-500" onload="this.style.opacity='1'">
+              </div>
+              <h1 class="font-display text-3xl sm:text-4xl md:text-5xl leading-tight" id="hero-name">
+                Your Name Here
+              </h1>
             </div>
-            <h1 class="font-display text-3xl sm:text-4xl md:text-5xl leading-tight" id="hero-name">
-              Your Name Here
-            </h1>
+
+            <!-- Decorative Divider -->
+            <div class="flex items-center justify-center gap-3 mb-6">
+              <span class="w-12 h-px bg-warmgray/30"></span>
+              <span class="w-1.5 h-1.5 bg-coral rotate-45"></span>
+              <span class="w-12 h-px bg-warmgray/30"></span>
+            </div>
+
+            <!-- Tagline -->
+            <p class="text-warmgray text-base sm:text-lg leading-relaxed text-center italic max-w-md mx-auto mb-8" id="hero-tagline">
+              "Crafting digital narratives that resonate, engage, and convert."
+            </p>
+
+            <!-- Social Links -->
+            <div class="flex items-center justify-center gap-3" id="hero-social-links">
+              <!-- Social links will be populated by JS -->
+            </div>
+
           </div>
-
-          <!-- Decorative Divider -->
-          <div class="flex items-center justify-center gap-3 mb-6">
-            <span class="w-12 h-px bg-warmgray/30"></span>
-            <span class="w-1.5 h-1.5 bg-coral rotate-45"></span>
-            <span class="w-12 h-px bg-warmgray/30"></span>
-          </div>
-
-          <!-- Tagline -->
-          <p class="text-warmgray text-base sm:text-lg leading-relaxed text-center italic max-w-md mx-auto mb-8" id="hero-tagline">
-            "Crafting digital narratives that resonate, engage, and convert."
-          </p>
-
-          <!-- Social Links -->
-          <div class="flex items-center justify-center gap-3" id="hero-social-links">
-            <!-- Social links will be populated by JS -->
-          </div>
-
         </div>
-      </div>
-    </section>
+      </section>
+    </div>
+
+    <!-- Hero Scroll Spacer -->
+    <div id="hero-scroll-spacer" class="hero-scroll-spacer"></div>
 
     <!-- Portfolio Section -->
     <section id="portfolio" class="py-16 sm:py-24 lg:py-32 relative">
