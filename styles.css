@@ -1038,6 +1038,13 @@ body {
   height: 16px;
 }
 
+.social-link .social-icon-img {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+  border-radius: 2px;
+}
+
 /* Footer social links (inverted) */
 footer .social-link {
   background: rgba(255, 255, 255, 0.1);
@@ -1232,6 +1239,11 @@ footer .social-link:hover {
   .social-link svg {
     width: 14px;
     height: 14px;
+  }
+
+  .social-link .social-icon-img {
+    width: 18px;
+    height: 18px;
   }
 }
 
